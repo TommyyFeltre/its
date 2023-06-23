@@ -10,6 +10,7 @@ import { SummaryComponent } from './components/summary/summary.component';
 import localeIt from '@angular/common/locales/it';
 import { CurrencyPipe, registerLocaleData } from '@angular/common';
 import { DiscountAmountPipe } from './pipes/discount-amount.pipe';
+import { DEFAULT_VAT } from './services/vat.service';
 registerLocaleData(localeIt);
 
 @NgModule({
@@ -28,6 +29,7 @@ registerLocaleData(localeIt);
   providers: [
     { provide: LOCALE_ID, useValue: 'it-IT' },
     { provide: DEFAULT_CURRENCY_CODE, useValue: 'EUR' },
+    {provide: DEFAULT_VAT, useValue: 0},
     CurrencyPipe
   ],
   bootstrap: [AppComponent]

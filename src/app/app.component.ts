@@ -1,9 +1,5 @@
+import { VatService } from './services/vat.service';
 import { Component } from '@angular/core';
-import {
-  getDiscountedPrice,
-  getFinalPrice,
-  getDiscountAmount,
-} from 'src/utils/cart-utils';
 import { CartSourceService } from './services/cart-source.service';
 
 @Component({
@@ -14,16 +10,19 @@ import { CartSourceService } from './services/cart-source.service';
 })
 export class AppComponent {
   items$ = this.cartService.items$;
-  vat = 0.22;
+  vat$ = this.vatService.vat$;
 
-  constructor(private cartService: CartSourceService) {
-    this.cartService.items$.subscribe((value) => {
-      console.log(value);
-    });
+  constructor(private cartService: CartSourceService, 
+              private vatService: VatService) {
+    let coutry = 'IT';
+    setInterval(() => {
+      coutry = coutry === 'IT' ? 'EN' : 'IT';
+      this.vatService.setVat(coutry);
+    }, 2000) 
   }
 
   updateQuantity(item: any, quantity: number) {
-    this.cartService.setQuantity(item.id, item.quantity);
+    this.cartService.setQuantity(item.id, quantity);
   }
   //metto _ perchè la funzione accetta due parametri ma l'index non mi serve
   trackById(_: number, item: any) {

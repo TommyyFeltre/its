@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ReplaySubject } from 'rxjs';
+import { BehaviorSubject, ReplaySubject } from 'rxjs';
 
 const CART = [
   {
@@ -73,23 +73,18 @@ const CART = [
 })
 export class CartSourceService {
 
-  private items = structuredClone(CART);
-  items$ = new ReplaySubject<any[]>();
+  private _items$ = new BehaviorSubject<any[]>(structuredClone(CART));
+  items$ = this._items$.asObservable();
 
-  constructor(){
-    this.items$.next(this.items);
-  }
-
-  getCart(){
-    return this.items;
-  }
+  // constructor(){
+  //   this.items$.next(this.items);
+  // }
 
   setQuantity(id: string, quantity: number){
-    const index = this.items.findIndex(i => i.id === id);
-    const clone = structuredClone(this.items);
+    const index = this._items$.value.findIndex(i => i.id === id);
+    const clone = structuredClone(this._items$.value);
     clone[index].quantity = quantity;
-    this.items = clone;
     //istruzione che dice che è cambiato il valore
-    this.items$.next(this.items);
+    this._items$.next(clone);
   }
 }
