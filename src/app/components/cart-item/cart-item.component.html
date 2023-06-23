@@ -21,7 +21,7 @@
             </span>
             <span class="ms-2">
               <span class="item-price">{{ getItemPrice() | currency }}</span>
-              <span class="item-discount"> ({{ getDiscountAmount() }})</span>
+              <span class="item-discount"> {{ getDiscountAmount() | discountAmount}}</span>
             </span>
           </div>
         </div>

@@ -1,90 +1,32 @@
 import { Component } from '@angular/core';
-import { getDiscountedPrice, getFinalPrice, getDiscountAmount } from 'src/utils/cart-utils';
-
-const CART = [
-  {
-    id: '1',
-    name: 'ssd',
-    netPrice: 95,
-    weight: 100,
-    discount: 5,
-    quantity: 2
-  },
-  {
-    id: '2',
-    name: 'motherboard',
-    netPrice: 270,
-    weight: 900,
-    discount: 0,
-    quantity: 1
-  },
-  {
-    id: '3',
-    name: 'ram',
-    netPrice: 120,
-    weight: 60,
-    discount: 10,
-    quantity: 2
-  },
-  {
-    id: '4',
-    name: 'processor',
-    netPrice: 400,
-    weight: 130,
-    discount: 0,
-    quantity: 1
-  },
-  {
-    id: '5',
-    name: 'power supply',
-    netPrice: 130,
-    weight: 1400,
-    discount: 15,
-    quantity: 1
-  },
-  {
-    id: '6',
-    name: 'cpu cooler',
-    netPrice: 170,
-    weight: 1000,
-    discount: 23,
-    quantity:1
-  },
-  {
-    id: '7',
-    name: 'gpu',
-    netPrice: 1600,
-    weight: 2500,
-    discount: 0,
-    quantity: 1
-  },
-  {
-    id: '8',
-    name: 'case',
-    netPrice: 130,
-    weight: 3500,
-    discount: 30,
-    quantity: 1
-  }
-];
+import {
+  getDiscountedPrice,
+  getFinalPrice,
+  getDiscountAmount,
+} from 'src/utils/cart-utils';
+import { CartSourceService } from './services/cart-source.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+  //providers: [CartSourceService]
 })
 export class AppComponent {
-  items:any[] = CART;
+  items$ = this.cartService.items$;
   vat = 0.22;
 
-  updateQuantity(item: any, quantity: number){
-    const index = this.items.indexOf(item);
-    const clone = structuredClone(this.items);
-    clone[index].quantity = quantity;
-    this.items = clone;
+  constructor(private cartService: CartSourceService) {
+    this.cartService.items$.subscribe((value) => {
+      console.log(value);
+    });
+  }
+
+  updateQuantity(item: any, quantity: number) {
+    this.cartService.setQuantity(item.id, item.quantity);
   }
   //metto _ perchè la funzione accetta due parametri ma l'index non mi serve
-  trackById(_: number, item: any){
+  trackById(_: number, item: any) {
     return item.id;
   }
 }

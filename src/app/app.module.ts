@@ -8,14 +8,16 @@ import { FormsModule } from '@angular/forms';
 import { CartItemComponent } from './components/cart-item/cart-item.component';
 import { SummaryComponent } from './components/summary/summary.component';
 import localeIt from '@angular/common/locales/it';
-import { registerLocaleData } from '@angular/common';
+import { CurrencyPipe, registerLocaleData } from '@angular/common';
+import { DiscountAmountPipe } from './pipes/discount-amount.pipe';
 registerLocaleData(localeIt);
 
 @NgModule({
   declarations: [
     AppComponent,
     CartItemComponent,
-    SummaryComponent
+    SummaryComponent,
+    DiscountAmountPipe
   ],
   imports: [
     BrowserModule,
@@ -25,7 +27,8 @@ registerLocaleData(localeIt);
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'it-IT' },
-    { provide: DEFAULT_CURRENCY_CODE, useValue: 'EUR' }
+    { provide: DEFAULT_CURRENCY_CODE, useValue: 'EUR' },
+    CurrencyPipe
   ],
   bootstrap: [AppComponent]
 })

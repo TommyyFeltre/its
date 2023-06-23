@@ -5,6 +5,7 @@ import {
   getTransportFee,
   getVatAmount,
 } from 'src/utils/cart-utils';
+import { __values } from 'tslib';
 
 @Component({
   selector: 'app-summary',
@@ -12,8 +13,19 @@ import {
   styleUrls: ['./summary.component.css'],
 })
 export class SummaryComponent implements OnChanges {
+protected _items :any[] = [];
+
   @Input()
-  items: any[] = [];
+  get items(){
+    return this._items;
+  }
+  set items (value: any[] | null){
+    if(!value){
+      value = [];
+    }
+    this._items= value;
+  } 
+  
 
   @Input()
   vat = 0;
@@ -23,12 +35,11 @@ export class SummaryComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['items'] || changes['vat']) {
       this.summary = this.updateSummary();
-      console.log(changes);
     }
   }
 
   private updateSummary() {
-    let summary = this.items.reduce(
+    let summary = this._items.reduce(
       (summ, item) => {
         let discountedPrice =
           getDiscountedPrice(item.netPrice, item.discount) * item.quantity;
