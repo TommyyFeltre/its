@@ -1,4 +1,4 @@
-import { Injectable, InjectionToken } from '@angular/core';
+import { Inject, Injectable, InjectionToken } from '@angular/core';
 import { right } from '@popperjs/core';
 import { ReplaySubject } from 'rxjs';
 
@@ -11,12 +11,12 @@ export class VatService {
   private _vat$ = new ReplaySubject<number>();
   vat$ = this._vat$.asObservable();
 
-  constructor(){
-    this._vat$.next(0);
+  constructor(@Inject(DEFAULT_VAT)private defaultVat: number){
+    this._vat$.next(this.defaultVat);
   }
 
   setVat(countryCode : string){
-    const vat = countryCode === 'IT' ? 0.22 : 0;
+    const vat = countryCode === 'IT' ? 0.22 : this.defaultVat;
     this._vat$.next(vat);
   }
 }

@@ -29,7 +29,7 @@ registerLocaleData(localeIt);
   providers: [
     { provide: LOCALE_ID, useValue: 'it-IT' },
     { provide: DEFAULT_CURRENCY_CODE, useValue: 'EUR' },
-    {provide: DEFAULT_VAT, useValue: 0},
+    {provide: DEFAULT_VAT, useValue: 0.10},
     CurrencyPipe
   ],
   bootstrap: [AppComponent]
