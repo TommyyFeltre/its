@@ -2,7 +2,7 @@
           class="d-flex flex-row d-flex justify-content-between align-items-center"
         >
           <div class="item-name">
-            {{ item.name }}
+            {{ item!.product.name }}
           </div>
 
           <div
@@ -12,7 +12,7 @@
               <label class="me-1" for="quantity">qty:</label>
               <input
                 class="form-control item-quantity"
-                [ngModel]="item.quantity"
+                [ngModel]="item!.quantity"
                 (ngModelChange)="handleQuantityChange($event)"
                 type="number"
                 name="quantity"

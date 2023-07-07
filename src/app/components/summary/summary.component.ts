@@ -1,4 +1,5 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { CartItem } from 'src/interfaces/cart-item';
 import {
   getDiscountedPrice,
   getFinalPrice,
@@ -13,7 +14,7 @@ import { __values } from 'tslib';
   styleUrls: ['./summary.component.css'],
 })
 export class SummaryComponent implements OnChanges {
-protected _items :any[] = [];
+protected _items :CartItem[] = [];
 
   @Input()
   get items(){
@@ -42,9 +43,9 @@ protected _items :any[] = [];
     let summary = this._items.reduce(
       (summ, item) => {
         let discountedPrice =
-          getDiscountedPrice(item.netPrice, item.discount) * item.quantity;
+          getDiscountedPrice(item.product.netPrice, item.product.discount) * item.quantity;
         const vatAmount = getVatAmount(discountedPrice, this.vat);
-        const weight = item.weight * item.quantity;
+        const weight = item.product.weight * item.quantity;
         const price = getFinalPrice(discountedPrice, this.vat);
 
         return {
