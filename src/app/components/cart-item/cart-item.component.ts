@@ -27,7 +27,6 @@ export class CartItemComponent {
   }
 
   handleQuantityChange(event: number){
-    console.log(event);
     this.quantityChange.emit(event);
   }
 }
