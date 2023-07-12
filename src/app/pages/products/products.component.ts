@@ -3,6 +3,7 @@ import { startWith, switchMap, debounceTime, catchError, of, Subject, takeUntil,
 import { ProductFilters, ProductService } from 'src/app/services/product.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { omitBy, pick } from 'lodash';
+import { Product } from 'src/interfaces/product';
 
 @Component({
   selector: 'app-products',
@@ -13,21 +14,15 @@ export class ProductsComponent implements OnInit, OnDestroy{
 
   private applyFilters$ = new Subject<ProductFilters>();
   private destroyed$ = new Subject<void>();
-  filters$ = this.activatedRoute.queryParams
-              .pipe(
-                map(params => pick(params, ['name', 'minPrice', 'maxPrice']))
-              );
+  filters$ = this.activatedRoute.data
+                .pipe(
+                  map(data => data['filters'] as ProductFilters)
+                );
 
-  products$ = this.filters$
-              .pipe(
-                startWith({}),
-                switchMap(filters => { 
-                  return this.productSrv.list(filters)
-                    .pipe(
-                      catchError(err => of([]))
-                    )
-                })
-              );
+  products$ = this.activatedRoute.data
+                .pipe(
+                  map(data => data['products'] as Product[])
+                )
 
   constructor(private productSrv: ProductService, private router: Router, private activatedRoute: ActivatedRoute){}
 

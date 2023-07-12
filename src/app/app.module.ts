@@ -14,6 +14,8 @@ import { DEFAULT_VAT } from './services/vat.service';
 import { CheckoutComponent } from './pages/checkout/checkout.component';
 import { ProductsComponent } from './pages/products/products.component';
 import { ProductFiltersComponent } from './components/product-filters/product-filters.component';
+import { ProductCardComponent } from './components/product-card/product-card.component';
+import { ProductDetailComponent } from './components/product-detail/product-detail.component';
 registerLocaleData(localeIt);
 
 @NgModule({
@@ -24,7 +26,9 @@ registerLocaleData(localeIt);
     DiscountAmountPipe,
     CheckoutComponent,
     ProductsComponent,
-    ProductFiltersComponent
+    ProductFiltersComponent,
+    ProductCardComponent,
+    ProductDetailComponent
   ],
   imports: [
     BrowserModule,
